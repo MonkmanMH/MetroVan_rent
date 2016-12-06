@@ -1,0 +1,46 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+
+library(dplyr)
+library(readr)
+
+columnnames <- c("reg", "lat", "long", "rent", "bedrooms", "bathrooms", "sq_ft")
+
+# read files, add column names
+data1 <- read_csv("cl_2016_4_3.csv", col_names = FALSE)
+colnames(data1) <- columnnames
+
+data2 <- read_csv("cl_2016_4_4.csv", col_names = FALSE)
+colnames(data2) <- columnnames
+
+
+# bind the two data frames
+# https://rdrr.io/cran/dplyr/man/bind.html
+f01_data <- unique(bind_rows(data1, data2))
+f01_data$rent_num <- gsub('\\$','', f01_data$rent)
+
+
+# filter out records that are not complete (i.e. NA values)
+f02_data <- f01_data[complete.cases(f01_data), ]
+
+
+f03_data <- f02_data %>%
+  filter(bedrooms != 0)
+
+f03_data_1.2br <- f03_data %>%
+  filter(bedrooms <= 2)
+
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
