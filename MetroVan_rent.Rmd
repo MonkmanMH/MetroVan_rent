@@ -18,7 +18,7 @@ This file reads rent data (advertisements) from the Metro Vancouver region.
 library(dplyr)
 library(readr)
 
-columnnames <- c("reg", "lat", "long", "rent", "bedrooms", "bathrooms", "sq_ft")
+columnnames <- c("reg", "latitude", "longitude", "rent", "bedrooms", "bathrooms", "sq_ft")
 
 # read files, add column names
 data1 <- read_csv("cl_2016_4_3.csv", col_names = FALSE)
@@ -38,11 +38,12 @@ f01_data$rent_num <- gsub('\\$','', f01_data$rent)
 f02_data <- f01_data[complete.cases(f01_data), ]
 
 
+# filter so that bedrooms = 1 or 2, bathrooms = 1
 f03_data <- f02_data %>%
   filter(bedrooms != 0)
 
 f03_data_1.2br <- f03_data %>%
-  filter(bedrooms <= 2)
+  filter(bedrooms <= 2 & bathrooms == 1)
 
 
 ```
@@ -80,11 +81,27 @@ plot(BC_censustracts)
 ```
 
 
+Next up:
+
+- zoom in on Metro Vancouver
+- spatial join
+
+```{r}
+
+# plot shapes
+plot(BC_censustracts, 
+     xlim=c(-123.3,-122.7), ylim=c(48.97,49.4))
+
+```
 
 
 ---
 
 #### futher reading
+
+http://benrifkind.github.io/Mapping-Stats-Canada-Data-with-R-Part-3-of-3/
+
+
 https://csde.washington.edu/services/gis/workshops/SPATIALR.shtml 
 
 http://gis.stackexchange.com/questions/19064/how-to-open-a-shapefile-in-r
