@@ -62,32 +62,27 @@ library(sp)
 library(rgeos)
 #library(rgdal)
 
+# from http://www.studytrails.com/r/r-and-gis-working-with-shapefiles/
 
 crswgs84=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
 
-states=readShapePoly("statesp020_nt00032/statesp020.shp",proj4string=crswgs84,verbose=TRUE) 
- 
-class(states)
-str(states@data)
-
-plot(states)
-
-```
-
-```{r}
-
-crswgs84=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
-
+# read shapefile
 BC_censustracts <- readShapePoly("CTshape/CT_2011.shp",proj4string=crswgs84,verbose=TRUE) 
  
+# examine shapefile
 class(BC_censustracts)
 str(BC_censustracts@data)
 
+# plot shapes
 plot(BC_censustracts)
 
 
 ```
 
+
+
+
+---
 
 #### futher reading
 https://csde.washington.edu/services/gis/workshops/SPATIALR.shtml 
