@@ -1,11 +1,17 @@
 ---
-title: "R Notebook"
+title: "Metro Van - rent analysis"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+Author: Martin Monkman
+Date: 2016-12-06
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+---
+
+This file reads rent data (advertisements) from the Metro Vancouver region.
+
+
+
 
 ```{r}
 
@@ -45,6 +51,45 @@ f03_data_1.2br <- f03_data %>%
 
 **How-to**
 
+http://www.studytrails.com/r/r-and-gis-working-with-shapefiles/
+
+
+```{r}
+#
+library(maptools)
+
+library(sp)
+library(rgeos)
+#library(rgdal)
+
+
+crswgs84=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
+
+states=readShapePoly("statesp020_nt00032/statesp020.shp",proj4string=crswgs84,verbose=TRUE) 
+ 
+class(states)
+str(states@data)
+
+plot(states)
+
+```
+
+```{r}
+
+crswgs84=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
+
+BC_censustracts <- readShapePoly("CTshape/CT_2011.shp",proj4string=crswgs84,verbose=TRUE) 
+ 
+class(BC_censustracts)
+str(BC_censustracts@data)
+
+plot(BC_censustracts)
+
+
+```
+
+
+#### futher reading
 https://csde.washington.edu/services/gis/workshops/SPATIALR.shtml 
 
 http://gis.stackexchange.com/questions/19064/how-to-open-a-shapefile-in-r
@@ -56,22 +101,9 @@ https://cran.r-project.org/web/packages/sp/index.html
 
 http://stackoverflow.com/questions/24174042/matching-georeferenced-data-with-shape-file-in-r
 
-**Packages**
 
-maptools
-sp
-rgdal
+**Statistics Canada shapefiles**
 
 https://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2011-eng.cfm
 
-
-
-```{r}
-
-library(sp)
-library(rgdal)
-
-shape <- readOGR("CT_2011.shp", layer="MyMap")
-
-```
 
