@@ -48,11 +48,18 @@ f03_data_1.2br <- f03_data %>%
 
 ```
 
-### Spatial Joins in R
+## Spatial data (mapping)
 
-**How-to**
+
+### Read in the shape file
+
+For this exercise, we'll use the census tract shape files for the 2011 Census of Canada.
+
+
+**References**
 
 http://www.studytrails.com/r/r-and-gis-working-with-shapefiles/
+
 
 
 ```{r}
@@ -81,10 +88,9 @@ plot(BC_censustracts)
 ```
 
 
-Next up:
+Zoom in on Metro Vancouver
 
-- zoom in on Metro Vancouver
-- spatial join
+Simple: just define the x and y limits using longitude (as x) and latitude (as y)
 
 ```{r}
 
@@ -93,6 +99,14 @@ plot(BC_censustracts,
      xlim=c(-123.3,-122.7), ylim=c(48.97,49.4))
 
 ```
+
+
+### Spatial join
+
+The next step is to use the census tract shape file to tell us the census tract the rental unit (in the data file f03_data_1.2br).
+
+This requires a spatial join, using the `over` command in the package sp.
+
 
 
 ---
