@@ -41,6 +41,37 @@ f03_data_1.2br <- f03_data %>%
 
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+### Spatial Joins in R
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+**How-to**
+
+https://csde.washington.edu/services/gis/workshops/SPATIALR.shtml 
+
+http://gis.stackexchange.com/questions/19064/how-to-open-a-shapefile-in-r
+
+
+http://gis.stackexchange.com/questions/137621/join-spatial-point-data-to-polygons-in-r
+
+https://cran.r-project.org/web/packages/sp/index.html 
+
+http://stackoverflow.com/questions/24174042/matching-georeferenced-data-with-shape-file-in-r
+
+**Packages**
+
+maptools
+sp
+rgdal
+
+https://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2011-eng.cfm
+
+
+
+```{r}
+
+library(sp)
+library(rgdal)
+
+shape <- readOGR("CT_2011.shp", layer="MyMap")
+
+```
+
