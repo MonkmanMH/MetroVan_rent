@@ -31,7 +31,7 @@ colnames(data2) <- columnnames
 # bind the two data frames
 # https://rdrr.io/cran/dplyr/man/bind.html
 f01_data <- unique(bind_rows(data1, data2))
-f01_data$rent_num <- gsub('\\$','', f01_data$rent)
+f01_data$rent_num <- as.numeric(gsub('\\$','', f01_data$rent))
 
 
 # filter out records that are not complete (i.e. NA values)
@@ -105,8 +105,15 @@ plot(BC_censustracts,
 
 The next step is to use the census tract shape file to tell us the census tract the rental unit (in the data file f03_data_1.2br).
 
-This requires a spatial join, using the `over` command in the package sp.
+This requires a spatial join, perhaps using the `over` command in the package sp.
 
+reference: http://www.nickeubank.com/wp-content/uploads/2015/10/RGIS2_MergingSpatialData_part1_Joins.html
+
+- using `point.in.polygon()` in `sp` package
+
+
+Further details:
+CRS - Coordinate Reference System (CRS)
 
 
 ---
