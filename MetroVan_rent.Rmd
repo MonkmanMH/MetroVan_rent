@@ -101,6 +101,18 @@ plot(BC_censustracts,
 ```
 
 
+Zoom in on the area covered by Skytrain routes
+
+Simple: just define the x and y limits using longitude (as x) and latitude (as y)
+
+```{r}
+
+# plot shapes
+plot(BC_censustracts, 
+     xlim=c(-123.28,-122.79), ylim=c(49.14,49.31))
+
+```
+
 ### Spatial join
 
 The next step is to use the census tract shape file to tell us the census tract the rental unit (in the data file f03_data_1.2br).
