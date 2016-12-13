@@ -18,24 +18,94 @@ This file reads rent data (advertisements) from the Metro Vancouver region.
 library(dplyr)
 library(readr)
 
+# turn off scientific notation (where very large numbers write with e instead) in R
+options(scipen = 999)
+
+# set working director
+setwd("C:/@data/GitHub/MetroVan_rent")
+
+
+# define column names
 columnnames <- c("reg", "latitude", "longitude", "rent", "bedrooms", "bathrooms", "sq_ft")
 
+# ---------------
+
 # read files, add column names
-data1 <- read_csv("cl_2016_4_3.csv", col_names = FALSE)
+data1 <- read_csv("data/cl_2016_4_3.csv", col_names = FALSE)
 colnames(data1) <- columnnames
 
-data2 <- read_csv("cl_2016_4_4.csv", col_names = FALSE)
+data2 <- read_csv("data/cl_2016_4_4.csv", col_names = FALSE)
 colnames(data2) <- columnnames
-
 
 # bind the two data frames
 # https://rdrr.io/cran/dplyr/man/bind.html
 f01_data <- unique(bind_rows(data1, data2))
+
+# ----------------
+# a bunch of test code
+
+#data2 <- read_csv("data/cl_2016_4_6.csv", col_names = FALSE)
+#colnames(data2) <- columnnames
+## bind the two data frames
+## https://rdrr.io/cran/dplyr/man/bind.html
+#f01_data <- unique(bind_rows(f01_data, data2))
+#
+# proto-loop
+#i <- 11
+#
+#filename <- paste("data/cl_2016_4_", i, ".csv", sep="")
+#datai <- read_csv(filename, col_names = FALSE)
+#colnames(datai) <- columnnames
+#
+#head(datai)
+#  
+#datai$sq_ft <- gsub("open house dates", NA, datai$sq_ft)
+#datai$sq_ft <- as.numeric(datai$sq_ft)
+#
+#  f01_data <- unique(bind_rows(f01_data, datai))
+
+
+# ----- 
+# loop! 
+# (shout out to @ateucher  ¯\_(ツ)_/¯  )
+# 
+# IMPORTANT NOTE:
+# this uses the April data
+# the files 2016_4_8.csv and 2016_4_26.csv were empty;
+# to make the loop work, a file with a set of comma separators was created
+
+for (i in 5:30){
+  filename <- paste("data/cl_2016_4_", i, ".csv", sep="")
+  datai <- read_csv(filename, col_names = FALSE)
+  colnames(datai) <- columnnames
+  datai$sq_ft <- gsub("open house dates", NA, datai$sq_ft)
+  datai$sq_ft <- as.numeric(datai$sq_ft)
+
+  f01_data <- unique(bind_rows(f01_data, datai))
+}
+
+
+# add numeric rent field
 f01_data$rent_num <- as.numeric(gsub('\\$','', f01_data$rent))
 
 
-# filter out records that are not complete (i.e. NA values)
-f02_data <- f01_data[complete.cases(f01_data), ]
+# filter out records that are not complete (i.e. NA values in any field, no geo-reference)
+f01_data <- f01_data[complete.cases(f01_data), ]
+f01_data <- f01_data %>%
+  filter(latitude != 0)
+
+
+write_csv(f01_data, "data/f01_data.csv")
+
+
+```
+
+
+
+
+#### Filtration
+
+```{r}
 
 
 # filter so that bedrooms = 1 or 2, bathrooms = 1
