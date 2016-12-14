@@ -85,6 +85,42 @@ for (i in 5:30){
 }
 
 
+# ---
+# Wern's clever loop solution
+# using list.files
+# https://stat.ethz.ch/R-manual/R-devel/library/base/html/list.files.html
+
+#This is how I would read them into a variable called votes:
+#
+#votes <- readdatafiles(
+#  list.files(
+#    path = sourcefolder, 
+#    pattern = '^votes-',
+#    full.names = TRUE
+#  )
+#)
+
+#
+# readdatafiles <- function(filelist) {
+#  tempdata <- read.csv(filelist[1], # Read first of files in list...
+#                       header = TRUE,
+#                       stringsAsFactors = FALSE)
+#  for (remainingfiles in filelist[-1]) {
+#    tempdata <- tempdata %>%
+#      bind_rows(
+#        read.csv(remainingfiles,
+#                 header = TRUE,
+#                 stringsAsFactors = FALSE)
+#      )
+#  }
+#  return(tempdata)
+#}
+#
+
+
+
+# -----------------------------------------
+
 # add numeric rent field
 f01_data$rent_num <- as.numeric(gsub('\\$','', f01_data$rent))
 
